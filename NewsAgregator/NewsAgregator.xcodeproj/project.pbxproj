@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9136059B2C1F327F0040FD7A /* UILabel+Copyable in Frameworks */ = {isa = PBXBuildFile; productRef = 9136059A2C1F327F0040FD7A /* UILabel+Copyable */; };
+		9136059E2C1F32860040FD7A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 9136059D2C1F32860040FD7A /* Kingfisher */; };
 		91DA32FC2C1F22ED00A7479C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DA32FB2C1F22ED00A7479C /* AppDelegate.swift */; };
 		91DA32FE2C1F22ED00A7479C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DA32FD2C1F22ED00A7479C /* SceneDelegate.swift */; };
 		91DA33002C1F22ED00A7479C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DA32FF2C1F22ED00A7479C /* ViewController.swift */; };
@@ -31,6 +33,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9136059E2C1F32860040FD7A /* Kingfisher in Frameworks */,
+				9136059B2C1F327F0040FD7A /* UILabel+Copyable in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +87,10 @@
 			dependencies = (
 			);
 			name = NewsAgregator;
+			packageProductDependencies = (
+				9136059A2C1F327F0040FD7A /* UILabel+Copyable */,
+				9136059D2C1F32860040FD7A /* Kingfisher */,
+			);
 			productName = NewsAgregator;
 			productReference = 91DA32F82C1F22ED00A7479C /* NewsAgregator.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +119,10 @@
 				Base,
 			);
 			mainGroup = 91DA32EF2C1F22ED00A7479C;
+			packageReferences = (
+				913605992C1F327F0040FD7A /* XCRemoteSwiftPackageReference "UILabel-Copyable" */,
+				9136059C2C1F32860040FD7A /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			productRefGroup = 91DA32F92C1F22ED00A7479C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -353,6 +365,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		913605992C1F327F0040FD7A /* XCRemoteSwiftPackageReference "UILabel-Copyable" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/alexandreos/UILabel-Copyable.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.1;
+			};
+		};
+		9136059C2C1F32860040FD7A /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.12.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9136059A2C1F327F0040FD7A /* UILabel+Copyable */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 913605992C1F327F0040FD7A /* XCRemoteSwiftPackageReference "UILabel-Copyable" */;
+			productName = "UILabel+Copyable";
+		};
+		9136059D2C1F32860040FD7A /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9136059C2C1F32860040FD7A /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		91DA33042C1F22ED00A7479C /* NewsAgregator.xcdatamodeld */ = {

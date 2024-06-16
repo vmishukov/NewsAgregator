@@ -1,0 +1,24 @@
+{
+  "originHash" : "9b1bd581bdd5996342448901187c11b285648ddd346185033f141070f8bc0ec3",
+  "pins" : [
+    {
+      "identity" : "kingfisher",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/onevcat/Kingfisher",
+      "state" : {
+        "revision" : "2ef543ee21d63734e1c004ad6c870255e8716c50",
+        "version" : "7.12.0"
+      }
+    },
+    {
+      "identity" : "uilabel-copyable",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/alexandreos/UILabel-Copyable.git",
+      "state" : {
+        "revision" : "a1ac4d7d1118fde314796f449e803e610d7b801c",
+        "version" : "2.0.1"
+      }
+    }
+  ],
+  "version" : 3
+}
