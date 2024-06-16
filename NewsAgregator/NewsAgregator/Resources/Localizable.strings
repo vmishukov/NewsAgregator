@@ -1,0 +1,22 @@
+/* 
+  Localizable.strings
+  NewsTestAppInlyIT
+
+  Created by Vladislav Mishukov on 24.04.2024.
+  
+*/
+
+// Tabs
+"Tab.News" = "Новости";
+"Tab.SelectedNews" = "Избранное";
+
+// News
+
+"News.Title" = "Новости";
+
+// Selected News
+"SelectedNews.Title" = "Избранные новости";
+
+
+//News
+"NewsDetail.Title" = "Новость";
