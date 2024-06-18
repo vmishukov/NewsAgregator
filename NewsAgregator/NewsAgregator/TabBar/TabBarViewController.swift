@@ -9,22 +9,28 @@ import UIKit
 
 final class TabBarViewController: UITabBarController {
     
-    //MARK: - life cycle
+    private let newsController = UINavigationController()
+    private let selectedNewsController = UINavigationController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         self.viewControllers = [createNewsViewController(),createSelectedNewsViewController()]
     }
     
-    //MARK: - tabBar controllers
     private func createNewsViewController() -> UINavigationController {
-        let newsViewController = NewsViewController(presenter: NewsPresenterImpls(newsService: NewsService(networkClient: AsyncNetworkClientImpl())))
+        
+        let networkClient = AsyncNetworkClientImpl()
+        let newsService = NewsService(networkClient: networkClient)
+        let dependencies = NewsAssembly.Dependencies(navigationController: newsController, newsService: newsService)
+        let newsViewController = NewsAssembly.makeModule(dependencies: dependencies)
         newsViewController.tabBarItem = UITabBarItem(
             title: "Tab.News"~,
             image: .inlyNewsTab,
             tag: 1
         )
-        return UINavigationController(rootViewController: newsViewController)
+        newsController.viewControllers = [ newsViewController ]
+        return newsController
     }
     
     private func createSelectedNewsViewController() -> UINavigationController {
@@ -34,9 +40,10 @@ final class TabBarViewController: UITabBarController {
             image: .inlySelectedNewsTab,
             tag: 2
         )
-        return UINavigationController(rootViewController: selectedNewsViewController)
+        selectedNewsController.viewControllers = [selectedNewsViewController]
+        return selectedNewsController
     }
-    //MARK: - tab bar design
+    
     private func setupUI() {
         view.backgroundColor = .inlyWhite
     }

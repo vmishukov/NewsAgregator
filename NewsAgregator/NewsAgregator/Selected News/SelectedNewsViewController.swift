@@ -67,7 +67,15 @@ extension SelectedNewsViewController: UITableViewDelegate {
             let rowData = presenter.rowData(at: indexPath)
         else { return }
         let vc = NewsDetailViewController(presenter: NewsDetailPresenter())
-        vc.setDetailedNews(rowData)
+        let data =  NewsCollectionData(articleId: rowData.articleId,
+                                       title: rowData.title,
+                                       link: rowData.link,
+                                       sourceUrl: rowData.sourceUrl,
+                                       description: rowData.description,
+                                       content: rowData.content,
+                                       pubDate: rowData.pubDate,
+                                       imageUrl: rowData.imageUrl)
+        vc.setDetailedNews(data)
         vc.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(vc, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
@@ -90,8 +98,14 @@ extension SelectedNewsViewController: UITableViewDataSource {
         guard
             let rowData = presenter.rowData(at: indexPath)
         else { return UITableViewCell() }
-        cell.initData(rowData: rowData, isSelected: true)
-        cell.delegate = self 
+        
+        let data = NewsTableCellData(articleId: rowData.articleId,
+                                     title: rowData.title,
+                                     sourceUrl: rowData.sourceUrl,
+                                     pubDate: rowData.pubDate,
+                                     imageUrl: rowData.imageUrl)
+        cell.initData(rowData: data, isSelected: true)
+        cell.delegate = self
         return cell
     }
 }
@@ -116,11 +130,11 @@ extension SelectedNewsViewController: SelectedNewsViewProtocol {
 
 //MARK: - NewsTableCellDelegate
 extension SelectedNewsViewController: NewsTableCellDelegate {
-    func addSelectedNews(newsId: String) {
+    func likeNewsDidTappedWith(newsId: String) {
         assertionFailure("Cannot be clicked here")
     }
     
-    func removeSelectedNews(newsId: String) {
+    func dislikeNewsDidTappedWith(newsId: String) {
         presenter.updateSelectedNews(newsId: newsId)
     }
 }

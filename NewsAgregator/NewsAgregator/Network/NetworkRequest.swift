@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 protocol NetworkRequest {
     var endpoint: URL? { get }
     var httpMethod: HttpMethod { get }
@@ -15,4 +14,3 @@ protocol NetworkRequest {
     var httpBody: String? { get }
     var secretInjector: (_ request: URLRequest) -> URLRequest { get }
 }
-

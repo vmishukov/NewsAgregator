@@ -15,7 +15,7 @@ protocol SelectedNewsPresenterProtocol {
     var view: SelectedNewsViewProtocol? { get set }
     var numberOfRows: Int { get }
     func viewDidAppear()
-    func rowData(at indexPath: IndexPath) -> NewsCollectionResult?
+    func rowData(at indexPath: IndexPath) -> NewsCollectionResultNetworkData?
     func updateSelectedNews(newsId: String)
 }
 
@@ -44,7 +44,7 @@ final class SelectedNewsPresenter: SelectedNewsPresenterProtocol {
         state = .loading
     }
     
-    func rowData(at indexPath: IndexPath) -> NewsCollectionResult? {
+    func rowData(at indexPath: IndexPath) -> NewsCollectionResultNetworkData? {
         selectedNewsService.item(at: indexPath.row)
     }
     

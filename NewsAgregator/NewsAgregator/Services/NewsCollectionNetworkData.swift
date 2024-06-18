@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct NewsCollection: Decodable {
+struct NewsCollectionNetworkData: Decodable {
     let status: String
     let totalResults: Int
-    let results: [NewsCollectionResult]
+    let results: [NewsCollectionResultNetworkData]
     let nextPage: String?
 }
 
-struct NewsCollectionResult: Decodable {
+struct NewsCollectionResultNetworkData: Decodable {
     let articleId: String
     let title: String?
     let link: String?
