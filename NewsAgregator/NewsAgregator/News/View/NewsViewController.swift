@@ -10,6 +10,7 @@ import UIKit
 protocol NewsViewProtocol: AnyObject {
     
     func update(newIndexes: Range<Int>)
+    func updateTable()
 }
 
 final class NewsViewController: UIViewController {
@@ -90,6 +91,11 @@ extension NewsViewController: UITableViewDataSource {
 }
 
 extension NewsViewController: NewsViewProtocol {
+    
+    func updateTable() {
+        contentView.newsTableView.reloadData()
+    }
+    
     
     func update(newIndexes: Range<Int>) {
         if newIndexes.isEmpty { return }

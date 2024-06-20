@@ -24,17 +24,17 @@ enum NewsTableViewState {
 }
 
 final class NewsPresenter: NewsPresenterProtocol {
-  
+    
     weak var view: NewsViewProtocol?
     
     var numberOfRows: Int {
         newsList.count
     }
     
-    private let interactor: NewsInteractorProtocol
+    private var interactor: NewsInteractorProtocol
     private let router: NewsRouter
     private var newsList = [NewsCollectionData]()
-    
+    private var likedNews = [String]()
     private let storage = SelectedNewsStorage.shared
     private var state = NewsTableViewState.initial {
         didSet {
@@ -46,6 +46,7 @@ final class NewsPresenter: NewsPresenterProtocol {
         
         self.router = router
         self.interactor = interactor
+        self.interactor.delegate = self
     }
     
     func rowData(at indexPath: IndexPath) -> NewsTableCellData? {
@@ -62,6 +63,8 @@ final class NewsPresenter: NewsPresenterProtocol {
     func viewDidLoad(view: NewsViewProtocol) {
         self.view = view
         state = .loading
+        loadLikedNews()
+        loadLikedNews()
     }
     
     func didReachEndOfNews() {
@@ -69,16 +72,20 @@ final class NewsPresenter: NewsPresenterProtocol {
     }
     
     func likeNewsDidTapped(newsId: String) {
-        storage.addSelectedNewsById(newsId: newsId)
+        let news = newsList.first{
+            $0.articleId == newsId
+        }
+        if let news {
+            interactor.like(news: news)
+        }
     }
     
     func dislikeNewsDidTapped(newsId: String) {
-        storage.removeSelectedNewsById(newsId: newsId)
+        interactor.dislikeNews(with: newsId)
     }
     
     func checkIfSelected(newsId: String) -> Bool {
-        guard let selectedNews = storage.getSelectedNews() else { return false }
-        return selectedNews.contains(where: {
+        return likedNews.contains(where: {
             $0 == newsId
         })
     }
@@ -121,12 +128,36 @@ private extension NewsPresenter {
         }
     }
     
+    private func loadLikedNews() {
+        do {
+            guard let likedNews = try interactor.fetchLikedNews() else { return }
+            self.likedNews = likedNews
+        } catch {
+            print(error)
+        }
+    }
+    
     private func addNew(data: [NewsCollectionData]) -> Range<Int> {
         let oldCount = newsList.count
-
+        
         newsList.append(contentsOf: data)
         let newCount = newsList.count
         
         return oldCount..<newCount
     }
+}
+
+extension NewsPresenter: NewsInteractorDelegate {
+    func newsDataService(_: any NewsInteractorProtocol, like news: NewsCollectionData) {
+        likedNews.append(news.articleId)
+        view?.updateTable()
+    }
+    
+    func companiesDataServiceDislikeNews(_: any NewsInteractorProtocol, at newsId: String) {
+        likedNews.removeAll(where: {
+            $0 == newsId
+        })
+        view?.updateTable()
+    }
+    
 }

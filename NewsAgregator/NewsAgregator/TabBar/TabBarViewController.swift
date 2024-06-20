@@ -21,7 +21,8 @@ final class TabBarViewController: UITabBarController {
     private func createNewsViewController() -> UINavigationController {
         
         let networkClient = AsyncNetworkClientImpl()
-        let newsService = NewsService(networkClient: networkClient)
+        let dataStore = NewsDataStore()
+        let newsService = NewsService(networkClient: networkClient, dataStore: dataStore)
         let dependencies = NewsAssembly.Dependencies(navigationController: newsController, newsService: newsService)
         let newsViewController = NewsAssembly.makeModule(dependencies: dependencies)
         newsViewController.tabBarItem = UITabBarItem(

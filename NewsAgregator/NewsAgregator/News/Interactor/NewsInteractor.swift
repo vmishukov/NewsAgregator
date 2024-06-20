@@ -7,19 +7,47 @@
 
 import Foundation
 
-protocol NewsInteractorProtocol {
+protocol NewsInteractorDelegate: AnyObject {
     
+    func newsDataService(_: any NewsInteractorProtocol, like news: NewsCollectionData)
+    
+    func companiesDataServiceDislikeNews(_: any NewsInteractorProtocol, at newsId: String)
+}
+
+protocol NewsInteractorProtocol {
+ 
+    var delegate: NewsInteractorDelegate? { get set }
     func fetchNextPage() async throws -> [NewsCollectionData]?
+    func fetchLikedNews() throws -> [String]?
+    func like(news: NewsCollectionData)
+    func dislikeNews(with newsID: String)
 }
 
 final class NewsInteractor: NewsInteractorProtocol {
+
+    
+
+    weak var delegate: (any NewsInteractorDelegate)?
     
     private var nextPageId = ""
     
-    private let newsService: NewsServiceProtocol
+    private var newsService: NewsServiceProtocol
     
     init(newsService: NewsServiceProtocol) {
         self.newsService = newsService
+        self.newsService.delegate = self
+    }
+    
+    func fetchLikedNews() throws -> [String]? {
+        return try newsService.fetchLikedNews()
+    }
+    
+    func like(news: NewsCollectionData) {
+        newsService.like(news: news)
+    }
+    
+    func dislikeNews(with newsID: String) {
+        newsService.dislikeNews(with: newsID)
     }
     
     func fetchNextPage() async throws -> [NewsCollectionData]? {
@@ -41,5 +69,15 @@ final class NewsInteractor: NewsInteractorProtocol {
                                imageUrl: $0.imageUrl)
         }
         return newsData
+    }
+}
+
+extension NewsInteractor: NewsDataServiceDelegate {
+    func newsDataService(_: any NewsServiceProtocol, like news: NewsCollectionData) {
+        delegate?.newsDataService(self, like: news)
+    }
+    
+    func companiesDataServiceDislikeNews(_: any NewsServiceProtocol, at newsId: String) {
+        delegate?.companiesDataServiceDislikeNews(self, at: newsId)
     }
 }
