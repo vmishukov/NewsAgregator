@@ -11,11 +11,12 @@ import UIKit
 protocol SelectedNewsViewProtocol: AnyObject {
     func update(newIndexes: Range<Int>)
     func removeAt(at: [IndexPath])
+    func updateTable()
 }
 
-final class SelectedNewsViewController: UIViewController {
+final class FavoriteNewsViewController: UIViewController {
     //MARK: - PRESENTER
-    private var presenter: SelectedNewsPresenterProtocol
+    private let presenter: FavoriteNewsPresenterProtocol
     //MARK: - UI
     private lazy var selectedNewsTableView: UITableView = {
         let tableView = UITableView(frame: .zero)
@@ -27,7 +28,7 @@ final class SelectedNewsViewController: UIViewController {
         return tableView
     }()
     //MARK: - INIT
-    init(presenter: SelectedNewsPresenterProtocol) {
+    init(presenter: FavoriteNewsPresenterProtocol) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
@@ -39,11 +40,11 @@ final class SelectedNewsViewController: UIViewController {
         super.viewDidLoad()
         setupNavBar()
         setupUI()
-        presenter.view = self
+        presenter.viewDidLoad(view: self)
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        presenter.viewDidAppear()
+        
     }
     //MARK: - setup navbar
     private func setupNavBar() {
@@ -61,32 +62,16 @@ final class SelectedNewsViewController: UIViewController {
     
 }
 //MARK: - UITableViewDelegate
-/*
-extension SelectedNewsViewController: UITableViewDelegate {
+
+extension FavoriteNewsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       
-        guard
-            let rowData = presenter.rowData(at: indexPath)
-        else { return }
-        let vc = NewsDetailViewController(presenter: NewsDetailPresenter())
-        let data =  NewsCollectionData(articleId: rowData.articleId,
-                                       title: rowData.title,
-                                       link: rowData.link,
-                                       sourceUrl: rowData.sourceUrl,
-                                       description: rowData.description,
-                                       content: rowData.content,
-                                       pubDate: rowData.pubDate,
-                                       imageUrl: rowData.imageUrl)
-        vc.setDetailedNews(data)
-        vc.hidesBottomBarWhenPushed = true
-        self.navigationController?.pushViewController(vc, animated: true)
+        presenter.didSelectNewsAt(indexPath: indexPath)
         tableView.deselectRow(at: indexPath, animated: true)
     }
-
 }
- */
+ 
 //MARK: - UITableViewDataSource
-extension SelectedNewsViewController: UITableViewDataSource {
+extension FavoriteNewsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         presenter.numberOfRows
     }
@@ -114,7 +99,11 @@ extension SelectedNewsViewController: UITableViewDataSource {
     }
 }
 //MARK: - SelectedNewsViewProtocol
-extension SelectedNewsViewController: SelectedNewsViewProtocol {
+extension FavoriteNewsViewController: SelectedNewsViewProtocol {
+    
+    func updateTable() {
+        selectedNewsTableView.reloadData()
+    }
     
     func removeAt(at: [IndexPath]) {
         selectedNewsTableView.deleteRows(at: at, with: .fade)
@@ -133,7 +122,7 @@ extension SelectedNewsViewController: SelectedNewsViewProtocol {
 }
 
 //MARK: - NewsTableCellDelegate
-extension SelectedNewsViewController: NewsTableCellDelegate {
+extension FavoriteNewsViewController: NewsTableCellDelegate {
     func likeNewsDidTappedWith(newsId: String) {
         assertionFailure("Cannot be clicked here")
     }

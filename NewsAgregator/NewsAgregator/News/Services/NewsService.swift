@@ -81,7 +81,7 @@ final class NewsService: NewsServiceProtocol {
 private extension NewsService {
     
     private func buildGetRequest(nextPageId: String) -> URLRequest {
-        var queryItems = [URLQueryItem(name: "country", value: "ru")]
+        var queryItems = [URLQueryItem(name: "country", value: "NewsCountry"~)]
         if !nextPageId.isEmpty {
             queryItems.append(URLQueryItem(name: "page", value: nextPageId))
         }

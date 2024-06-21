@@ -25,8 +25,6 @@ protocol NewsInteractorProtocol {
 
 final class NewsInteractor: NewsInteractorProtocol {
 
-    
-
     weak var delegate: (any NewsInteractorDelegate)?
     
     private var nextPageId = ""

@@ -10,7 +10,7 @@ import UIKit
 final class TabBarViewController: UITabBarController {
     
     private let newsController = UINavigationController()
-    private let selectedNewsController = UINavigationController()
+    private let favoriteNewsController = UINavigationController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,14 +35,17 @@ final class TabBarViewController: UITabBarController {
     }
     
     private func createSelectedNewsViewController() -> UINavigationController {
-        let selectedNewsViewController = SelectedNewsViewController(presenter: SelectedNewsPresenter(selectedNewsService: SelectedNewsService(networkClient: AsyncNetworkClientImpl())))
-        selectedNewsViewController.tabBarItem = UITabBarItem(
+        let dataStore = NewsDataStore()
+        let favoriteNewsService = FavoriteNewsService(dataStore: dataStore)
+        let dependencies = FavoriteNewsAssembly.Dependencies(navigationController: favoriteNewsController, newsService: favoriteNewsService)
+        let favoriteNewsViewController = FavoriteNewsAssembly.makeModule(dependencies: dependencies)
+        favoriteNewsViewController.tabBarItem = UITabBarItem(
             title: "Tab.SelectedNews"~,
             image: .inlySelectedNewsTab,
             tag: 2
         )
-        selectedNewsController.viewControllers = [selectedNewsViewController]
-        return selectedNewsController
+        favoriteNewsController.viewControllers = [favoriteNewsViewController]
+        return favoriteNewsController
     }
     
     private func setupUI() {
