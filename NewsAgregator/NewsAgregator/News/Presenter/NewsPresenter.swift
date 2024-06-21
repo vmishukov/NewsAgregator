@@ -50,7 +50,7 @@ final class NewsPresenter: NewsPresenterProtocol {
     }
     
     func rowData(at indexPath: IndexPath) -> NewsTableCellData? {
-        guard indexPath.row < self.newsList.count-1 else { return nil }
+        guard indexPath.row < self.newsList.count else { return nil }
         let data = newsList[indexPath.row]
         let cellData = NewsTableCellData(articleId: data.articleId,
                                          title: data.title,
@@ -159,5 +159,4 @@ extension NewsPresenter: NewsInteractorDelegate {
         })
         view?.updateTable()
     }
-    
 }

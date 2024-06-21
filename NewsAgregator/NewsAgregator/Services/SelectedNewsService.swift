@@ -64,7 +64,7 @@ enum SelectedNewsServiceResult {
     case update(newIndexes: Range<Int>)
     case empty
 }
-// MARK: - make request
+
 extension SelectedNewsService {
     private func buildGetRequest(selectedNews: String) -> URLRequest {
         let queryItems = [

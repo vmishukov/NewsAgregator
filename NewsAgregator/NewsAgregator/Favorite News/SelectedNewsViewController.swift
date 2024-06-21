@@ -19,7 +19,7 @@ final class SelectedNewsViewController: UIViewController {
     //MARK: - UI
     private lazy var selectedNewsTableView: UITableView = {
         let tableView = UITableView(frame: .zero)
-        tableView.delegate = self
+       // tableView.delegate = self
         tableView.dataSource = self
         tableView.register(NewsTableCell.self, forCellReuseIdentifier: NewsTableCell.identifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -61,8 +61,10 @@ final class SelectedNewsViewController: UIViewController {
     
 }
 //MARK: - UITableViewDelegate
+/*
 extension SelectedNewsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+       
         guard
             let rowData = presenter.rowData(at: indexPath)
         else { return }
@@ -80,7 +82,9 @@ extension SelectedNewsViewController: UITableViewDelegate {
         self.navigationController?.pushViewController(vc, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
+
 }
+ */
 //MARK: - UITableViewDataSource
 extension SelectedNewsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

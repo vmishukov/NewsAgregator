@@ -38,7 +38,6 @@ final class NewsViewController: UIViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        contentView.newsTableView.reloadData()
     }
 }
 
@@ -96,14 +95,13 @@ extension NewsViewController: NewsViewProtocol {
         contentView.newsTableView.reloadData()
     }
     
-    
     func update(newIndexes: Range<Int>) {
         if newIndexes.isEmpty { return }
         contentView.newsTableView.performBatchUpdates {
             let indexPaths = newIndexes.map { index in
                 IndexPath(row: index, section: 0)
             }
-            contentView.newsTableView.insertRows(at: indexPaths, with: .automatic)
+            contentView.newsTableView.insertRows(at: indexPaths, with: .bottom)
         } completion: { _ in
         }
     }
